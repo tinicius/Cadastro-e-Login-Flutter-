@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "16216009477",
+    "project_id": "mecompre-b2801",
+    "storage_bucket": "mecompre-b2801.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16216009477:android:1c76f75c59332c1255a56c",
+        "android_client_info": {
+          "package_name": "com.mecompre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16216009477-9stfgq060f2d90pjdk2mvo65vt115cmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD6Y_u6eo294MqryDWGvKsTh3aw2GlB50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16216009477-9stfgq060f2d90pjdk2mvo65vt115cmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
