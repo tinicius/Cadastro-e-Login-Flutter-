@@ -1,32 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:me_compre/main.dart';
+import 'package:me_compre/data/repositories/login_repository.dart';
+import 'package:me_compre/routes/auth_routes.dart';
 
-class _InkWellOverlay extends StatelessWidget {
-  const _InkWellOverlay({
-    this.openContainer,
-    this.width,
-    this.height,
-    this.child,
-  });
-
-  final VoidCallback openContainer;
-  final double width;
-  final double height;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      width: width,
-      child: InkWell(
-        onTap: openContainer,
-        child: child,
-      ),
-    );
-  }
-}
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,19 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  a() async {
-    List a = new List();
-    a.add(1);
-    a.add(1);
-    a.add(1);
-    a.add(1);
-    a.add(1);
-    a.add(1);
-    a.add(1);
-
-    return a;
-  }
-
   final fAuth = FirebaseAuth.instance;
   final aa = TextEditingController();
 
@@ -55,15 +19,46 @@ class _HomePageState extends State<HomePage> {
     aa.text = fAuth.currentUser.photoURL;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Home"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              LoginRepository().logoff();
+              Navigator.pushReplacementNamed(context, AuthRoutes.LOGIN);
+            },
+          )
+        ],
+      ),
       body: FutureBuilder(
         //future: fAuth.currentUser,
         builder: (context, snapshot) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(fAuth.currentUser.uid),
-              
-            ],
+          return Container(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(fAuth.currentUser.photoURL))),
+                  ),
+                  Card(
+                    child: Text(fAuth.currentUser.displayName),
+                  ),
+                  Card(
+                    child: Text(fAuth.currentUser.email),
+                  ),
+                  Card(
+                    child: Text(fAuth.currentUser.uid),
+                  )
+                ],
+              ),
+            ),
           );
         },
       ),

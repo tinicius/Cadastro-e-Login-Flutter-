@@ -13,6 +13,12 @@ class LoginController {
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
 
+  var isLoading = false;
+
+  void changeLoading() {
+    this.isLoading = !this.isLoading;
+  }
+
   String emailValidator(String value) {
     if (value.isEmpty) {
       return 'Campo Vazio';
@@ -33,11 +39,15 @@ class LoginController {
     return null;
   }
 
-  void entrar(BuildContext context) async {
+  Future<void> entrar(BuildContext context) async {
     if (formKey.currentState.validate()) {
       try {
         var login = await _repository.loginWithEmailAndPassword(
             emailController.text, senhaController.text);
+
+        if (login != null) {
+          Navigator.pushReplacementNamed(context, AppRoutes.HOME);
+        }
       } catch (e) {
         Exception exception = e;
         DialogBox()

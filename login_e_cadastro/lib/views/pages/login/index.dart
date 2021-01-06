@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:me_compre/controllers/login_controller.dart';
 import 'package:me_compre/views/components/flatBottomExtent.dart';
 import 'package:me_compre/views/components/textFormFieldExtent.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,8 +10,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  
   final loginController = LoginController();
+    final fAuth = FirebaseAuth.instance;
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             children: [
+
               //Imagem
 
               FutureBuilder(
@@ -54,18 +57,18 @@ class _LoginPageState extends State<LoginPage> {
               //Entradas
 
               TextFormFieldExt(
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.email),
-                keyboardType: TextInputType.emailAddress,
-                controller: loginController.emailController,
-                validator: loginController.emailValidator
-              ),
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
+                  keyboardType: TextInputType.emailAddress,
+                  controller: loginController.emailController,
+                  validator: loginController.emailValidator),
               TextFormFieldExt(
                 labelText: 'Senha',
                 prefixIcon: Icon(Icons.vpn_key),
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.visiblePassword,
                 controller: loginController.senhaController,
                 validator: loginController.senhaValidator,
+                obscureText: true,
               ),
 
               SizedBox(
@@ -74,12 +77,25 @@ class _LoginPageState extends State<LoginPage> {
 
               //Botões
 
-              FlatButtonExt(
-                text: "Entrar",
-                onPressed: () {
-                  loginController.entrar(context);
-                },
-              ),
+              (loginController.isLoading)
+                  ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Center(child: CircularProgressIndicator()),
+                    )
+                  : FlatButtonExt(
+                      text: "Entrar",
+                      onPressed: () async {
+                        setState(() {
+                          loginController.changeLoading();
+                        });
+
+                        await loginController.entrar(context);
+
+                        setState(() {
+                          loginController.changeLoading();
+                        });
+                      },
+                    ),
               FlatButtonExt(
                 text: "Esqueci a senha",
                 onPressed: () {
